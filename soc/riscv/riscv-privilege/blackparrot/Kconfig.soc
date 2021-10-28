@@ -1,0 +1,13 @@
+# Copyright (c) 2020 Cobham Gaisler AB
+# SPDX-License-Identifier: Apache-2.0
+
+choice
+	prompt "BlackParrot RISC-V Board"
+	depends on SOC_SERIES_RISCV_BLACKPARROT
+
+config SOC_RISCV_BLACKPARROT
+	bool "BlackParrot RISC-V Board"
+	select ATOMIC_OPERATIONS_BUILTIN
+	select INCLUDE_RESET_VECTOR
+
+endchoice
