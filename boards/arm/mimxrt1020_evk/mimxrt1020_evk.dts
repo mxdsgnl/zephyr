@@ -158,7 +158,3 @@ zephyr_udc0: &usb1 {
 	cd-gpios = <&gpio1 23 GPIO_ACTIVE_LOW>;
 	no-1-8-v;
 };
-
-&adc1 {
-	status = "okay";
-};

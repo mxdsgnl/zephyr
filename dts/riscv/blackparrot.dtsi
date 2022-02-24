@@ -1,0 +1,77 @@
+/*
+ * Copyright (c) 2018 Linaro Limited
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+/ {
+	#address-cells = <1>;
+	#size-cells = <1>;
+
+	cpus {
+		#address-cells = <1>;
+		#size-cells = <0>;
+		cpu@0 {
+			compatible = "riscv";
+			device_type = "cpu";
+			reg = <0>;
+			riscv,isa = "rv64imafd";
+			
+			hlic: interrupt-controller {
+				#interrupt-cells = <1>;
+				compatible = "riscv,cpu-intc";
+				interrupt-controller;
+			};
+		};
+	};
+  
+
+	soc {
+		#address-cells = <1>;
+		#size-cells = <1>;
+		compatible = "simple-bus";
+		ranges;
+
+		sram0: memory@80000000 {
+			compatible = "mmio-sram";
+			reg = <0x80000000 0x4000000>;
+		};
+
+		clint: clint@300000 {
+			#interrupt-cells = <1>;
+			compatible = "riscv,clint0";
+			interrupt-controller;
+			interrupts-extended = <&hlic 3 &hlic 7>;
+			reg = <0x300000 0x10000>;
+			reg-names = "control";
+		};
+    
+    gpio0: gpio@40000000 {
+			compatible = "xlnx,xps-gpio-1.00.a";
+      gpio-controller;
+			reg = <0x40000000 0x10000>;
+			label = "GPIO_0";
+			#gpio-cells = <2>;
+      ngpios = <4>;
+      status = "disabled";
+		};
+    
+    uart0: serial@40600000 {
+			compatible = "xlnx,xps-uartlite-1.00.a";
+			reg = <0x40600000 0x10000>;
+			label = "uart_0";
+			clock-frequency = <19999800>;
+			current-speed = <115200>;
+			status = "disabled";
+		};
+	};
+  
+	leds {
+		compatible = "gpio-leds";
+		green_led: led_0 {
+			gpios = <&gpio0 1 GPIO_ACTIVE_LOW>;
+			label = "User D3 green";
+		};
+	};
+
+};

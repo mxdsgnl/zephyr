@@ -255,7 +255,3 @@ zephyr_udc0: &usb1 {
 &lpspi3 {
 	status = "okay";
 };
-
-&adc1 {
-	status = "okay";
-};

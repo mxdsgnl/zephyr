@@ -29,4 +29,3 @@ supported:
   - dma
   - can
   - watchdog
-  - adc

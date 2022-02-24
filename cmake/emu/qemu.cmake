@@ -74,15 +74,9 @@ endif()
 list(APPEND QEMU_FLAGS -mon chardev=con,mode=readline)
 
 if(CONFIG_QEMU_ICOUNT)
-  if(CONFIG_QEMU_ICOUNT_SLEEP)
-    list(APPEND QEMU_FLAGS
-	  -icount shift=${CONFIG_QEMU_ICOUNT_SHIFT},align=off,sleep=on
-	  -rtc clock=vm)
-  else()
-    list(APPEND QEMU_FLAGS
+  list(APPEND QEMU_FLAGS
 	  -icount shift=${CONFIG_QEMU_ICOUNT_SHIFT},align=off,sleep=off
 	  -rtc clock=vm)
-  endif()
 endif()
 
 # Add a BT serial device when building for bluetooth, unless the

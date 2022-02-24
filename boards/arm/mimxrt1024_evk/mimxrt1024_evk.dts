@@ -120,7 +120,3 @@
 &lpspi1 {
 	status = "okay";
 };
-
-&adc1 {
-	status = "okay";
-};

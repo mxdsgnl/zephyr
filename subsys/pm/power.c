@@ -17,8 +17,9 @@
 #include "pm_priv.h"
 
 #define PM_STATES_LEN (1 + PM_STATE_SOFT_OFF - PM_STATE_ACTIVE)
+#define LOG_LEVEL CONFIG_PM_LOG_LEVEL
 #include <logging/log.h>
-LOG_MODULE_REGISTER(pm, CONFIG_PM_LOG_LEVEL);
+LOG_MODULE_REGISTER(power);
 
 static int post_ops_done = 1;
 static struct pm_state_info z_power_state;
@@ -241,15 +242,34 @@ enum pm_state pm_system_suspend(int32_t ticks)
 	}
 
 #if CONFIG_PM_DEVICE
-	bool should_resume_devices = false;
 
-	if (z_power_state.state != PM_STATE_RUNTIME_IDLE) {
-		if (pm_suspend_devices()) {
+	bool should_resume_devices = true;
+
+	switch (z_power_state.state) {
+	case PM_STATE_SUSPEND_TO_IDLE:
+		__fallthrough;
+	case PM_STATE_STANDBY:
+		/* low power peripherals. */
+		if (pm_low_power_devices()) {
 			SYS_PORT_TRACING_FUNC_EXIT(pm, system_suspend,
-				ticks, _handle_device_abort(z_power_state));
+					ticks, _handle_device_abort(z_power_state));
 			return _handle_device_abort(z_power_state);
 		}
-		should_resume_devices = true;
+		break;
+	case PM_STATE_SUSPEND_TO_RAM:
+		__fallthrough;
+	case PM_STATE_SUSPEND_TO_DISK:
+		__fallthrough;
+	case PM_STATE_SOFT_OFF:
+		if (pm_suspend_devices()) {
+			SYS_PORT_TRACING_FUNC_EXIT(pm, system_suspend,
+					ticks, _handle_device_abort(z_power_state));
+			return _handle_device_abort(z_power_state);
+		}
+		break;
+	default:
+		should_resume_devices = false;
+		break;
 	}
 #endif
 	/*
@@ -302,9 +322,4 @@ int pm_notifier_unregister(struct pm_notifier *notifier)
 	k_spin_unlock(&pm_notifier_lock, pm_notifier_key);
 
 	return ret;
-}
-
-const struct pm_state_info pm_power_state_next_get(void)
-{
-	return z_power_state;
 }

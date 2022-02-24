@@ -67,14 +67,9 @@ manifest:
       groups:
         - hal
     - name: hal_espressif
-      revision: 7c46a3fc5b336199392cba0f66c3c27d5fe9025c
+      revision: a360365cb7858826809c82e375524ee5faf497ac
       path: modules/hal/espressif
       west-commands: west/west-commands.yml
-      groups:
-        - hal
-    - name: hal_gigadevice
-      revision: ce323de9655972a545cbdddda813c1576d85d5d1
-      path: modules/hal/gigadevice
       groups:
         - hal
     - name: hal_infineon
@@ -193,7 +188,7 @@ manifest:
       revision: 6010f0523cbc75f551d9256cf782f173177acdef
       path: modules/lib/open-amp
     - name: openthread
-      revision: 15d9f0401eb458b35c82e327299969b8b745231f
+      revision: fd1ab161f7d5cfd5d0120cd5d1797811e78ff918
       path: modules/lib/openthread
     - name: segger
       revision: 3a52ab222133193802d3c3b4d21730b9b1f1d2f6

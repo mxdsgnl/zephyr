@@ -15,7 +15,7 @@
 K_SEM_DEFINE(sem, 0, 1);
 
 static void trigger_handler(const struct device *dev,
-			    const struct sensor_trigger *trigger)
+			    struct sensor_trigger *trigger)
 {
 	ARG_UNUSED(dev);
 	ARG_UNUSED(trigger);

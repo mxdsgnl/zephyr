@@ -251,10 +251,7 @@ class JLinkBinaryRunner(ZephyrBinaryRunner):
                 self.run_client(client_cmd)
 
     def flash(self, **kwargs):
-        lines = [
-            'ExitOnError 1',  # Treat any command-error as fatal
-            'r',  # Reset and halt the target
-        ]
+        lines = ['r'] # Reset and halt the target
 
         if self.erase:
             lines.append('erase') # Erase all flash sectors

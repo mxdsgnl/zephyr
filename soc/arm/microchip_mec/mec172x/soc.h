@@ -62,7 +62,6 @@
 #include "../common/soc_pins.h"
 #include "../common/soc_espi_channels.h"
 #include "../common/soc_espi_saf.h"
-#include "../common/soc_espi_v2.h"
 
 #endif
 

@@ -32,4 +32,3 @@ supported:
   - kscan:touch
   - can
   - watchdog
-  - adc

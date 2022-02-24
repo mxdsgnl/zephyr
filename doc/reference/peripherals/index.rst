@@ -23,7 +23,6 @@ Peripherals
    ipm.rst
    kscan.rst
    led.rst
-   mbox.rst
    pinmux.rst
    pwm.rst
    ps2.rst

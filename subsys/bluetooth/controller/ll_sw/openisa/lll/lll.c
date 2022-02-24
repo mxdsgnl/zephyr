@@ -312,10 +312,9 @@ int lll_done(void *param)
 }
 
 #if defined(CONFIG_BT_CTLR_LOW_LAT_ULL_DONE)
-void lll_done_ull_inc(void)
+void lll_done_sync(void)
 {
-	LL_ASSERT(event.done.ull_count != event.done.lll_count);
-	event.done.ull_count++;
+	event.done.ull_count = event.done.lll_count;
 }
 #endif /* CONFIG_BT_CTLR_LOW_LAT_ULL_DONE */
 
@@ -467,7 +466,6 @@ static int init_reset(void)
 static inline void done_inc(void)
 {
 	event.done.lll_count++;
-	LL_ASSERT(event.done.lll_count != event.done.ull_count);
 }
 #endif /* CONFIG_BT_CTLR_LOW_LAT_ULL_DONE */
 

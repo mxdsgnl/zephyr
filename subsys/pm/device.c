@@ -7,8 +7,9 @@
 #include <device.h>
 #include <pm/device.h>
 
+#define LOG_LEVEL CONFIG_PM_LOG_LEVEL /* From power module Kconfig */
 #include <logging/log.h>
-LOG_MODULE_REGISTER(pm_device, CONFIG_PM_DEVICE_LOG_LEVEL);
+LOG_MODULE_DECLARE(power);
 
 #if defined(CONFIG_PM_DEVICE)
 extern const struct device *__pm_device_slots_start[];
@@ -55,6 +56,11 @@ int pm_suspend_devices(void)
 	return _pm_devices(PM_DEVICE_STATE_SUSPENDED);
 }
 
+int pm_low_power_devices(void)
+{
+	return _pm_devices(PM_DEVICE_STATE_LOW_POWER);
+}
+
 void pm_resume_devices(void)
 {
 	int32_t i;
@@ -73,6 +79,8 @@ const char *pm_device_state_str(enum pm_device_state state)
 	switch (state) {
 	case PM_DEVICE_STATE_ACTIVE:
 		return "active";
+	case PM_DEVICE_STATE_LOW_POWER:
+		return "low power";
 	case PM_DEVICE_STATE_SUSPENDED:
 		return "suspended";
 	case PM_DEVICE_STATE_OFF:
@@ -113,6 +121,13 @@ int pm_device_state_set(const struct device *dev,
 		}
 
 		action = PM_DEVICE_ACTION_RESUME;
+		break;
+	case PM_DEVICE_STATE_LOW_POWER:
+		if (pm->state == state) {
+			return -EALREADY;
+		}
+
+		action = PM_DEVICE_ACTION_LOW_POWER;
 		break;
 	case PM_DEVICE_STATE_OFF:
 		if (pm->state == state) {

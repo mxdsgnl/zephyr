@@ -10,8 +10,9 @@
 #include <sys/atomic.h>
 #include <pm/state.h>
 
+#define LOG_LEVEL CONFIG_PM_LOG_LEVEL /* From power module Kconfig */
 #include <logging/log.h>
-LOG_MODULE_DECLARE(pm, CONFIG_PM_LOG_LEVEL);
+LOG_MODULE_DECLARE(power);
 
 #define PM_STATES_LEN (1 + PM_STATE_SOFT_OFF - PM_STATE_ACTIVE)
 

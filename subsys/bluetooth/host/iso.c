@@ -57,6 +57,9 @@ struct bt_iso_big bigs[CONFIG_BT_ISO_MAX_BIG];
 static struct bt_iso_big *lookup_big_by_handle(uint8_t big_handle);
 #endif /* CONFIG_BT_ISO_BROADCAST */
 
+/* Prototype */
+int hci_le_remove_cig(uint8_t cig_id);
+
 #if defined(CONFIG_BT_ISO_UNICAST) || defined(CONFIG_BT_ISO_BROADCASTER)
 static void bt_iso_send_cb(struct bt_conn *iso, void *user_data)
 {
@@ -113,7 +116,7 @@ void hci_iso(struct net_buf *buf)
 	bt_conn_unref(iso);
 }
 
-static struct bt_conn *iso_new(void)
+struct bt_conn *iso_new(void)
 {
 	struct bt_conn *iso = bt_conn_new(iso_conns, ARRAY_SIZE(iso_conns));
 
@@ -376,7 +379,7 @@ void bt_iso_connected(struct bt_conn *iso)
 	}
 }
 
-static void bt_iso_remove_data_path(struct bt_conn *iso)
+void bt_iso_remove_data_path(struct bt_conn *iso)
 {
 	BT_DBG("%p", iso);
 
@@ -794,7 +797,7 @@ void bt_iso_cleanup_acl(struct bt_conn *iso)
 	}
 }
 
-void hci_le_cis_established(struct net_buf *buf)
+void hci_le_cis_estabilished(struct net_buf *buf)
 {
 	struct bt_hci_evt_le_cis_established *evt = (void *)buf->data;
 	uint16_t handle = sys_le16_to_cpu(evt->conn_handle);
@@ -937,7 +940,7 @@ void hci_le_cis_req(struct net_buf *buf)
 	}
 }
 
-static int hci_le_remove_cig(uint8_t cig_id)
+int hci_le_remove_cig(uint8_t cig_id)
 {
 	struct bt_hci_cp_le_remove_cig *req;
 	struct net_buf *buf;

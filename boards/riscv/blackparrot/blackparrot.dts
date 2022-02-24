@@ -1,0 +1,33 @@
+/*
+ * Copyright (c) 2018 Linaro Limited
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+/dts-v1/;
+#include <dt-bindings/gpio/gpio.h>
+#include <blackparrot.dtsi>
+
+
+/ {
+	model = "blackparrot";
+	/*compatible = "";*/
+	aliases {
+    led0 = &green_led;
+	};
+
+	chosen {
+		zephyr,console = &uart0;
+	    zephyr,shell-uart = &uart0;
+		zephyr,sram = &sram0;
+	};
+};
+
+&uart0 {
+	status = "okay";
+	current-speed = <115200>;
+};
+
+&gpio0 {
+  status = "okay";
+};
