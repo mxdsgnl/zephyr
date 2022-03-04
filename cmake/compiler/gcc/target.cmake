@@ -61,6 +61,12 @@ elseif("${ARCH}" STREQUAL "sparc")
   include(${CMAKE_CURRENT_LIST_DIR}/target_sparc.cmake)
 endif()
 
+# list(APPEND TOOLCHAIN_C_FLAGS
+   # -march=rv64imafd -mabi=lp64
+   # )
+
+message(STATUS "##################### tool chain c flags: ${TOOLCHAIN_C_FLAGS}")
+
 # This libgcc code is partially duplicated in compiler/*/target.cmake
 execute_process(
   COMMAND ${CMAKE_C_COMPILER} ${TOOLCHAIN_C_FLAGS} --print-libgcc-file-name

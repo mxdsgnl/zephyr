@@ -360,7 +360,7 @@ static const struct uart_driver_api xlnx_uartlite_driver_api = {
 #define XLNX_UARTLITE_IRQ_CFG_FUNC_INIT
 #define XLNX_UARTLITE_INIT_CFG(n)					\
 	XLNX_UARTLITE_DECLARE_CFG(n, XLNX_UARTLITE_IRQ_CFG_FUNC_INIT)
-#endif
+#endif /* CONFIG_UART_INTERRUPT_DRIVEN */
 
 #define XLNX_UARTLITE_DECLARE_CFG(n, IRQ_FUNC_INIT)			\
 static const struct xlnx_uartlite_config xlnx_uartlite_##n##_config = {	\

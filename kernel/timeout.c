@@ -15,6 +15,7 @@
 static uint64_t curr_tick;
 
 static sys_dlist_t timeout_list = SYS_DLIST_STATIC_INIT(&timeout_list);
+static uint8_t timeout_list_init_done = 0;
 
 static struct k_spinlock timeout_lock;
 
@@ -38,6 +39,11 @@ static inline int z_vrfy_sys_clock_hw_cycles_per_sec_runtime_get(void)
 
 static struct _timeout *first(void)
 {
+  if (timeout_list_init_done == 0){
+    sys_dlist_init(&timeout_list);
+    timeout_list_init_done = 1;
+  } 
+  
 	sys_dnode_t *t = sys_dlist_peek_head(&timeout_list);
 
 	return t == NULL ? NULL : CONTAINER_OF(t, struct _timeout, node);
@@ -45,6 +51,11 @@ static struct _timeout *first(void)
 
 static struct _timeout *next(struct _timeout *t)
 {
+  if (timeout_list_init_done == 0){
+    sys_dlist_init(&timeout_list);
+    timeout_list_init_done = 1;
+  } 
+  
 	sys_dnode_t *n = sys_dlist_peek_next(&timeout_list, &t->node);
 
 	return n == NULL ? NULL : CONTAINER_OF(n, struct _timeout, node);
@@ -82,6 +93,12 @@ static int32_t next_timeout(void)
 void z_add_timeout(struct _timeout *to, _timeout_func_t fn,
 		   k_timeout_t timeout)
 {
+  
+  if (timeout_list_init_done == 0){
+    sys_dlist_init(&timeout_list);
+    timeout_list_init_done = 1;
+  } 
+
 	if (K_TIMEOUT_EQ(timeout, K_FOREVER)) {
 		return;
 	}
