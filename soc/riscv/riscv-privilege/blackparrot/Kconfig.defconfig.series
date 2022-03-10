@@ -6,12 +6,12 @@ if SOC_SERIES_RISCV_BLACKPARROT
 config SOC_SERIES
 	default "blackparrot"
 
-
 config SYS_CLOCK_HW_CYCLES_PER_SEC
 	default 10000000
+  
 
 config RISCV_SOC_INTERRUPT_INIT
-	default n
+	default y
 
 config RISCV_HAS_CPU_IDLE
 	default y
@@ -32,6 +32,17 @@ config NUM_IRQS
 	default 64
 
 config COMPRESSED_ISA
-	default y
+	default n
+  
+config FPU
+  default y
+  
+config CPU_HAS_FPU_DOUBLE_PRECISION
+  default y
+  
+config RISCV_GENERIC_TOOLCHAIN
+  default n
+  
+
 
 endif

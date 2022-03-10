@@ -24,6 +24,7 @@
 			};
 		};
 	};
+  
 
 	soc {
 		#address-cells = <1>;
@@ -31,9 +32,9 @@
 		compatible = "simple-bus";
 		ranges;
 
-		sram0: memory@80040000 {
+		sram0: memory@80000000 {
 			compatible = "mmio-sram";
-			reg = <0x80040000 0x40000>;
+			reg = <0x80000000 0x4000000>;
 		};
 
 		clint: clint@300000 {
@@ -44,18 +45,33 @@
 			reg = <0x300000 0x10000>;
 			reg-names = "control";
 		};
-
-		uart0: serial@100000 {
-			compatible = "ns16550";
-			reg = <0x100000 0x1000>;
-			reg-names = "control";
-			label = "uart_0";
-			clock-frequency = <66000000>;
-			current-speed = <115200>;
-			status = "disabled";
+    
+    gpio0: gpio@40000000 {
+			compatible = "xlnx,xps-gpio-1.00.a";
+      gpio-controller;
+			reg = <0x40000000 0x10000>;
+			label = "GPIO_0";
+			#gpio-cells = <2>;
+      ngpios = <4>;
+      status = "disabled";
 		};
-
-
-
+    
+    uart0: serial@44a00000 {
+			compatible = "xlnx,xps-uartlite-1.00.a";
+			reg = <0x44a00000 0x10000>;
+			label = "uart_0";
+			clock-frequency = <19999800>;
+			current-speed = <115200>;
+			status = "enable";
+		};
 	};
+  
+	leds {
+		compatible = "gpio-leds";
+		green_led: led_0 {
+			gpios = <&gpio0 1 GPIO_ACTIVE_LOW>;
+			label = "User D3 green";
+		};
+	};
+
 };

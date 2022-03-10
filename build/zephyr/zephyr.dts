@@ -1,0 +1,74 @@
+/dts-v1/;
+
+/ {
+	#address-cells = < 0x1 >;
+	#size-cells = < 0x1 >;
+	model = "blackparrot";
+	cpus {
+		#address-cells = < 0x1 >;
+		#size-cells = < 0x0 >;
+		cpu@0 {
+			compatible = "riscv";
+			device_type = "cpu";
+			reg = < 0x0 >;
+			riscv,isa = "rv64imafd";
+			hlic: interrupt-controller {
+				#interrupt-cells = < 0x1 >;
+				compatible = "riscv,cpu-intc";
+				interrupt-controller;
+				phandle = < 0x1 >;
+			};
+		};
+	};
+	soc {
+		#address-cells = < 0x1 >;
+		#size-cells = < 0x1 >;
+		compatible = "simple-bus";
+		ranges;
+		sram0: memory@80000000 {
+			compatible = "mmio-sram";
+			reg = < 0x80000000 0x4000000 >;
+		};
+		clint: clint@300000 {
+			#interrupt-cells = < 0x1 >;
+			compatible = "riscv,clint0";
+			interrupt-controller;
+			interrupts-extended = < &hlic 0x3 &hlic 0x7 >;
+			reg = < 0x300000 0x10000 >;
+			reg-names = "control";
+		};
+		gpio0: gpio@40000000 {
+			compatible = "xlnx,xps-gpio-1.00.a";
+			gpio-controller;
+			reg = < 0x40000000 0x10000 >;
+			label = "GPIO_0";
+			#gpio-cells = < 0x2 >;
+			ngpios = < 0x4 >;
+			status = "okay";
+			phandle = < 0x2 >;
+		};
+		uart0: serial@44a00000 {
+			compatible = "xlnx,xps-uartlite-1.00.a";
+			reg = < 0x44a00000 0x10000 >;
+			label = "uart_0";
+			clock-frequency = < 0x1312c38 >;
+			current-speed = < 0x1c200 >;
+			status = "okay";
+		};
+	};
+	leds {
+		compatible = "gpio-leds";
+		green_led: led_0 {
+			gpios = < &gpio0 0x1 0x1 >;
+			label = "User D3 green";
+		};
+	};
+	aliases {
+		led0 = &green_led;
+	};
+	chosen {
+		zephyr,console = &uart0;
+		zephyr,shell-uart = &uart0;
+		zephyr,sram = &sram0;
+	};
+};

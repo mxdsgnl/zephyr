@@ -5,3 +5,4 @@ config SOC_SERIES_RISCV_BLACKPARROT
 	bool "BlackParrot RISC-V Board"
 	select RISCV
 	select SOC_FAMILY_RISCV_PRIVILEGE
+	select 64BIT
