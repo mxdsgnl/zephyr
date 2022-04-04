@@ -9,7 +9,6 @@ config SOC_SERIES
 config SYS_CLOCK_HW_CYCLES_PER_SEC
 	default 10000000
   
-
 config RISCV_SOC_INTERRUPT_INIT
 	default y
 
@@ -17,7 +16,7 @@ config RISCV_HAS_CPU_IDLE
 	default y
 
 config RISCV_HAS_PLIC
-	default n
+	default y
 
 config 2ND_LVL_ISR_TBL_OFFSET
 	default 12

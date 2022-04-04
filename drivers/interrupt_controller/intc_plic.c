@@ -186,6 +186,8 @@ static int plic_init(const struct device *dev)
 	volatile uint32_t *prio = (volatile uint32_t *)PLIC_PRIO;
 	volatile struct plic_regs_t *regs =
 	    (volatile struct plic_regs_t *)PLIC_REG;
+	// volatile struct plic_regs_t *regs =
+	    // (volatile struct plic_regs_t *)0x0c200000;      
 	int i;
 
 	/* Ensure that all interrupts are disabled initially */
@@ -199,6 +201,7 @@ static int plic_init(const struct device *dev)
 		*prio = 0U;
 		prio++;
 	}
+
 
 	/* Set threshold priority to 0 */
 	regs->threshold_prio = 0U;

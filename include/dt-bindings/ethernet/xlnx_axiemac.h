@@ -1,0 +1,19 @@
+#ifndef ZEPHYR_INCLUDE_DT_BINDINGS_ETHERNET_XLNX_AXIEMAC_H_
+#define ZEPHYR_INCLUDE_DT_BINDINGS_ETHERNET_XLNX_AXIEMAC_H_
+
+/* PHY auto-detection alias */
+#define XLNX_AXIEMAC_PHY_AUTO_DETECT 0
+
+/* Link speed values */
+#define XLNX_AXIEMAC_LINK_SPEED_10MBIT  1
+#define XLNX_AXIEMAC_LINK_SPEED_100MBIT 2
+#define XLNX_AXIEMAC_LINK_SPEED_1GBIT   3
+
+#define XAE_PHY_TYPE_MII                0
+#define XAE_PHY_TYPE_GMII               1
+#define XAE_PHY_TYPE_RGMII_1_3          2
+#define XAE_PHY_TYPE_RGMII_2_0          3
+#define XAE_PHY_TYPE_SGMII              4
+#define XAE_PHY_TYPE_1000BASE_X         5
+  
+#endif /* ZEPHYR_INCLUDE_DT_BINDINGS_ETHERNET_XLNX_AXIEMAC_H_ */

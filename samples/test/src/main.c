@@ -15,7 +15,7 @@
 
 // volatile int counter;
 // volatile uint32_t dummy;
-static const char *poll_data = "hello";
+static const char *poll_data = "hello\r\n";
 
 char rxbuf[100];
 volatile int count;
@@ -36,33 +36,39 @@ void main(void)
   while(1){
     
     //test uart , if recv a enter then , respond with the buf + hello
-    if(uart_poll_in(dev, &ch)==0){
+    // if(uart_poll_in(dev, &ch)==0){
       
-      rxbuf[idx%100] = ch;
+      // rxbuf[idx%100] = ch;
       
-      if (idx < 100)
-        idx++;
-      else
-        idx = 0;
+      // if (idx < 100)
+        // idx++;
+      // else
+        // idx = 0;
       
       
-      if ((ch== 0x0d)||(ch==0x0a))  {
-        for (int i=0; i<(idx-1); i++){
-          uart_poll_out(dev, rxbuf[i]);
-        }
-        idx = 0;
+      // if ((ch== 0x0d)||(ch==0x0a))  {
+        // for (int i=0; i<(idx-1); i++){
+          // uart_poll_out(dev, rxbuf[i]);
+        // }
+        // idx = 0;
       
-        for (int i = 0; i < strlen(poll_data); i++) {
-          uart_poll_out(dev, poll_data[i]);
-        }
+        // for (int i = 0; i < strlen(poll_data); i++) {
+          // uart_poll_out(dev, poll_data[i]);
+        // }
       
-        for (int i = 0; i<8000; i++){  //roughly 2 ms with 20MHz clk to bp core
-          count ++;
-        }
-      }
+        // for (int i = 0; i<8000; i++){  //roughly 2 ms with 20MHz clk to bp core
+          // count ++;
+        // }
+      // }
       
-    }
-    
+    // }
+		for (int i = 0; i < strlen(poll_data); i++) {
+			uart_poll_out(dev, poll_data[i]);
+		}
+		
+		for (int i = 0; i<160000; i++){  //roughly 2 ms with 20MHz clk to bp core
+			count ++;
+		}
   }
 
  

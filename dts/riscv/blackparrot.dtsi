@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
-
+#include <dt-bindings/ethernet/xlnx_axiemac.h>
 / {
 	#address-cells = <1>;
 	#size-cells = <1>;
@@ -24,7 +24,6 @@
 			};
 		};
 	};
-  
 
 	soc {
 		#address-cells = <1>;
@@ -46,23 +45,52 @@
 			reg-names = "control";
 		};
     
-    gpio0: gpio@40000000 {
+		plic: plic@c000000 {
+			#interrupt-cells = <2>;
+			compatible = "sifive,plic-1.0.0";
+			interrupt-controller;
+			interrupts-extended = <&hlic 11>;
+			reg = <0x0c000000 0x00002000
+			       0x0c002000 0x00001000
+			       0x0c008000 0x00000010>;                    
+			reg-names = "prio", "irq_en", "reg";
+			riscv,max-priority = <7>;
+			riscv,ndev = <52>;
+		};
+    
+    eth0: ethernet@40080000 {
+			compatible = "xlnx,axiemac";
+			reg = <0x40080000 0x40000>,
+				<0x40000000 0x10000>;
+      local-mac-address = [00 0a 35 20 71 48];
+      status = "ok";
+      label = "emac0";
+			link-speed = <XLNX_AXIEMAC_LINK_SPEED_100MBIT>;
+      full-duplex;
+      flow-control;
+      interrupt-parent = <&plic>;
+      interrupts = <12 0>;
+		};
+    
+    gpio0: gpio@44000000 {
 			compatible = "xlnx,xps-gpio-1.00.a";
       gpio-controller;
-			reg = <0x40000000 0x10000>;
+			reg = <0x44000000 0x10000>;
 			label = "GPIO_0";
 			#gpio-cells = <2>;
       ngpios = <4>;
       status = "disabled";
 		};
     
-    uart0: serial@44a00000 {
+    uart0: serial@400c0000 {
 			compatible = "xlnx,xps-uartlite-1.00.a";
-			reg = <0x44a00000 0x10000>;
+			reg = <0x400c0000 0x10000>;
 			label = "uart_0";
 			clock-frequency = <19999800>;
 			current-speed = <115200>;
 			status = "enable";
+      interrupt-parent = <&plic>;
+      interrupts = <13 0>;
 		};
 	};
   

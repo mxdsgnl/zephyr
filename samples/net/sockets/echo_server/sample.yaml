@@ -90,3 +90,6 @@ tests:
   sample.net.sockets.echo_server.userspace:
     extra_args: CONFIG_USERSPACE=y OVERLAY_CONFIG="overlay-e1000.conf"
     platform_allow: qemu_x86
+  sample.net.sockets.echo_server.blackparrot:
+    extra_args: OVERLAY_CONFIG="overlay-blackparrot.conf"
+    platform_allow: blackparrot
